@@ -21,11 +21,11 @@ step values so that range(5, 2, -1) produces [5, 4, 3, 2].
 
 */
 
-let range = function(start, end) {
+let range = function(start, end, step = 1) {
   let range_array = [];
   let counter = 0; 
   if(start < end) {
-    for(let i = start; i <= end ; i++) {
+    for(let i = start; i <= end ; i += step) {
       range_array[counter] = i;
       counter++;
     }
@@ -50,3 +50,4 @@ let sum = function(array) {
 console.log(range(1, 10));
 console.log(range(5, 2, -1));
 console.log(sum(range(1, 10)));
+console.log(range(1, 10, 2));
