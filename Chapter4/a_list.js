@@ -70,7 +70,7 @@ let prepend = function(element, list) {
 };
 
 let nth = function(list, number) {
-  let counter = 1;
+  let counter = 0;
   let nth_node = undefined;
 
   for(let node = list; node; node = node.rest) {
@@ -86,6 +86,19 @@ let nth = function(list, number) {
   return nth_node;
 };
 
+let nthRecursive = function(list, number) {
+  let return_list = {};
+   
+  if(number === 0) {
+    Object.assign(return_list, list);
+  } 
+  else {
+    Object.assign(return_list, nthRecursive(list.rest, (number - 1)));
+  }
+
+  return return_list;
+};
+
 console.log(arrayToList([10, 20]));
 console.log(arrayToList([10, 20, 30]));
 console.log("--------------");
@@ -94,4 +107,6 @@ console.log("--------------");
 console.log(listToArray({value:10, rest: {value: 20, rest: null}}));
 console.log(listToArray({value:10, rest: {value: 20, rest: {value: 30, rest: null}}}));
 console.log("--------------");
-console.log(nth({value: 10, rest: {value: 20, rest: {value: 30, rest: null}}}, 2));
+console.log(nth({value: 10, rest: {value: 20, rest: {value: 30, rest: null}}}, 1));
+console.log("--------------");
+console.log(nthRecursive({value: 10, rest: {value: 20, rest: {value: 30, rest: null}}}, 2));
