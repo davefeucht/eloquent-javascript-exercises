@@ -38,10 +38,18 @@ If you haven’t already, also write a recursive version of nth.
 let arrayToList = function(array) {
   let list = {};
   let temp_list = {};
-  for(let i = 0; i < array.length; i++) {
-    if(i === 0) {
-      list.value = array[i];
-      list.next = null;
+  for(let i = (array.length - 1); i >= 0; i--) {
+    if(i === (array.length - 1)) {
+      list = {value: array[i], rest: null};
+    }
+    else {
+      temp_list = {};
+      Object.assign(temp_list, list);
+      list = {value: array[i], rest: temp_list};
     }
   }
-}
+  return list;
+};
+
+console.log(arrayToList([10, 20]));
+console.log(arrayToList([10, 20, 30]));
