@@ -69,6 +69,23 @@ let prepend = function(element, list) {
   return temp_list;
 };
 
+let nth = function(list, number) {
+  let counter = 1;
+  let nth_node = undefined;
+
+  for(let node = list; node; node = node.rest) {
+    if(counter === number) {
+      nth_node = node;
+      break;
+    }    
+    else {
+      counter++;
+    }
+  } 
+ 
+  return nth_node;
+};
+
 console.log(arrayToList([10, 20]));
 console.log(arrayToList([10, 20, 30]));
 console.log("--------------");
@@ -76,3 +93,5 @@ console.log(prepend({value: 10, rest: null}, {value: 20, rest: {value: 30, rest:
 console.log("--------------");
 console.log(listToArray({value:10, rest: {value: 20, rest: null}}));
 console.log(listToArray({value:10, rest: {value: 20, rest: {value: 30, rest: null}}}));
+console.log("--------------");
+console.log(nth({value: 10, rest: {value: 20, rest: {value: 30, rest: null}}}, 2));
