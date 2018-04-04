@@ -51,5 +51,18 @@ let arrayToList = function(array) {
   return list;
 };
 
+let listToArray = function(list) {
+  let array = [];
+  let counter = 0;
+  
+  for(let node = list; node; node = node.rest) {
+    array[counter] = node.value;
+    counter++; 
+  } 
+  return array;
+};
+
 console.log(arrayToList([10, 20]));
 console.log(arrayToList([10, 20, 30]));
+console.log(listToArray({value:10, rest: {value: 20, rest: null}}));
+console.log(listToArray({value:10, rest: {value: 20, rest: {value: 30, rest: null}}}));
