@@ -62,7 +62,17 @@ let listToArray = function(list) {
   return array;
 };
 
+let prepend = function(element, list) {
+  let temp_list = element;
+  
+  temp_list.rest = list; 
+  return temp_list;
+};
+
 console.log(arrayToList([10, 20]));
 console.log(arrayToList([10, 20, 30]));
+console.log("--------------");
+console.log(prepend({value: 10, rest: null}, {value: 20, rest: {value: 30, rest: null}}));
+console.log("--------------");
 console.log(listToArray({value:10, rest: {value: 20, rest: null}}));
 console.log(listToArray({value:10, rest: {value: 20, rest: {value: 30, rest: null}}}));
