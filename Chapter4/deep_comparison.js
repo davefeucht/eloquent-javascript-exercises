@@ -41,26 +41,26 @@ let deepEqual = function(value1, value2) {
   }
 
   if(value1_isObject && value2_isObject) {
-    let keys_equal = true;
-    let values_equal = true;
     let keys_object1 = Object.keys(value1);
     let keys_object2 = Object.keys(value2);
 
-    for(let key in keys_object1) {
-      if(!keys_object2.includes(keys_object1[key])) {
-        keys_equal = false;
-      } 
+    if(keys_object1.length !== keys_object2.length) {
+      equal = false;
     }
-
-    //This needs to be recursive in case the value is also an object
-    if(keys_equal) {
-      for(let object_key in value1) {
-        if(!(value1[object_key] === value2[object_key])) {
-          values_equal = false; 
+    else { 
+      for(let i = 0; i < keys_object1.length; i++) {
+        if(!keys_object2.includes(keys_object1[i])) {
+          equal = false;
+          break;
+        }
+        else {
+          equal = deepEqual(value1[keys_object1[i]], value2[keys_object2[i]]); 
+          if(!equal) {
+            break;
+          }
         }
       }
     }
-    equal = (keys_equal && values_equal);
   }
 
   return equal;
