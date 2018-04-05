@@ -67,13 +67,7 @@ let findScriptByName = function(name) {
 let findHighestCount = function(list) {
   let high_count = {name: undefined, count: 0}; 
 
-  for(let i = 0; i < list.length; i++) {
-    if(list[i].count > high_count.count) {
-      high_count.name = list[i].name;
-      high_count.count = list[i].count;
-    } 
-  } 
-  
+  high_count = list.reduce((a,b) => (a.count > b.count ? a : b), 0);
   return high_count;
 };
 
