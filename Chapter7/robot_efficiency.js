@@ -155,19 +155,24 @@ function calculateAverage(total, numberOfInstances) {
   return average;
 }
 
+function findShortestRoute(place, parcels) {
+  let shortest_parcel_route = {route: {length: 15}, parcel: 0};
+  for(let index = 0; index < parcels.length; index++) {
+    let new_route = findRoute(roadGraph, place, parcels[index].place);
+    if(new_route.length < shortest_parcel_route.route.length) {
+      shortest_parcel_route.route = new_route;
+      shortest_parcel_route.parcel = index;
+    }
+  }
+  return(shortest_parcel_route);
+}
+
 //goalOrientedRobot just starts with the first parcel - it would make sense to instead
 //start with the closest parcel.
 function allNewRobot({place, parcels}, route) {
   if (route.length === 0) {
-    let first_parcel_route = {parcel: 0, length: 15};
-    for(let index = 0; index < parcels.length; index++) {
-      let new_route = findRoute(roadGraph, place, parcels[index].place);
-      if(new_route.length < first_parcel_route.length) {
-        first_parcel_route.length = new_route.length;
-        first_parcel_route.parcel = index; 
-      }
-    }
-    let parcel = parcels[first_parcel_route.parcel];
+    let temp_route = findShortestRoute(place, parcels);
+    let parcel = parcels[temp_route.parcel];
     if (parcel.place !== place) {
       route = findRoute(roadGraph, place, parcel.place);
     } else {
@@ -195,4 +200,5 @@ function compareRobots(robot1, memory1, robot2, memory2) {
   console.log("Robot2: " + average_robot2);
 }
 
+let villageState = (new VillageState).random();
 compareRobots(goalOrientedRobot, [], allNewRobot, []);
