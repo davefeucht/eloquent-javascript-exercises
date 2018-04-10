@@ -32,8 +32,8 @@ console.log(b.has("a"));
 */
 
 class PGroup {
-  constructor() {
-     this.values = [];
+  constructor(values = []) {
+     this.values = values;
   } 
 
   add(number) {
@@ -62,8 +62,8 @@ class PGroup {
     return(newGroup);
   }
 
-  has(number) {
-    return(this.values.includes(number));
+  has(value) {
+    return(this.values.includes(value));
   }
 
   from(object) {
@@ -76,9 +76,11 @@ class PGroup {
   }
 }
 
+PGroup.empty = new PGroup();
+
 let a = PGroup.empty.add("a");
 let ab = a.add("b");
-let b = ab.delete("a");
+let b = ab.remove("a");
 
 console.log(b.has("b"));
 console.log(a.has("b"));
