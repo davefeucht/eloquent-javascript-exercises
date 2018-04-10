@@ -55,7 +55,7 @@ class Group {
     return(this.values.includes(number));
   }
 
-  from(object) {
+  static from(object) {
     let newGroup = new Group();
 
     for(let element of object) {
@@ -65,7 +65,7 @@ class Group {
   }
 }
 
-let group = new Group().from([10, 20]);
+let group = Group.from([10, 20]);
 console.log(group.has(10));
 console.log(group.has(30));
 group.add(10);
