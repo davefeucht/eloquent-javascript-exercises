@@ -1,0 +1,59 @@
+Chapter 10: A Modular Robot
+
+These are the bindings that the project from Chapter 7 creates:
+
+roads
+buildGraph
+roadGraph
+VillageState
+runRobot
+randomPick
+randomRobot
+mailRoute
+routeRobot
+findRoute
+goalOrientedRobot
+
+If you were to write that project as a modular program, what modules would you create? 
+Which module would depend on which other module, and what would their interfaces look like?
+
+Which pieces are likely to be available pre-written on NPM? Would you prefer to use an NPM 
+package or to write them yourself?
+
+-------------------------------------------------------------------------
+
+I would write separate modules for the following:
+
+*roads
+*buildGraph
+*state
+*randomRobot
+*routeRobot
+*goalOrientedRobot
+*runRobot
+
+roads would contain both the raw road data and the built graph and would expose getter and setter functions
+
+buildGraph would export a function to take the raw road data and build and return a Graph object
+
+state would contain the VillageState class and would expose a function to return a VillageState object and the randomPick function
+
+randomRobot would expose the function for the robot
+
+routeRobot would expose the function for the robot
+
+goalOrientedRobot would expose the function for the robot
+
+runRobot would expose a function to take a VillageState object, a robot, and return an object containing the moves made
+
+runRobot would depend on VillageState and the individual robot modules
+
+randomRobot would depend on state because of randomPick
+
+buildGraph would depend on roads
+
+Individual robot modules would include the functions they use for determining a route (mailRoute and findRoute)
+
+buildGraph is likely to be found in NPM (as was mentioned already in the chapter) - other modules are very specific to this example.
+This probably implements a more standard and widely-used Graph than our own, so using it would make the rest of our code more useable
+for others who would also use this type of graph.
