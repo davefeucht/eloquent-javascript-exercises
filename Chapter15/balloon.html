@@ -46,8 +46,8 @@ that you can’t inflate or deflate the explosion).
   else {
     setFontSize(100);
   }
-
-  window.addEventListener("keydown", event => {
+ 
+  let resizeBalloon = function (event) {
     event.preventDefault();
     if(event.key === "ArrowUp") {
       setFontSize(fontSize + 10);
@@ -57,11 +57,11 @@ that you can’t inflate or deflate the explosion).
     }
     if(fontSize > 200) {
       document.getElementsByTagName("p")[0].textContent = "💥";
+      window.removeEventListener("keydown", resizeBalloon);
     }
-    if(fontSize < 200) {
-      document.getElementsByTagName("p")[0].textContent = "🎈";
-    }
-  });
+  }
+
+  window.addEventListener("keydown", resizeBalloon);
 </script>
 </body>
 </html>
