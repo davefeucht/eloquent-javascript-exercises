@@ -42,16 +42,42 @@ it is obvious which tab is selected.
   <div data-tabname="three">Tab three</div>
 </tab-panel>
 <script>
-  function asTabs(node) {
-    let children = node.childNodes;
-    let parent_node = children[0].parentNode;
-    for(let i = 0; i < children.length; i++) {
-      if(children[i].nodeName.toLowerCase() === "div") {
-        let new_button = document.createElement("buton");
-        new_button.innerHTML = children[i].getAttribute("data-tabname");
-        //parent_node.insertBefore(new_button, children[0]);
+  function changeTab(tab_number) {
+    let tabs = Array.from(document.querySelectorAll("div[data-tabname]"));
+    let buttons = Array.from(document.querySelectorAll("button[data-tabname]"));
+    for(let tab of tabs) {
+      if(tab.getAttribute("data-tabname") === tab_number) {
+        tab.style.display = "block";
+      } 
+      else {
+        tab.style.display = "none";
       }
     }
+
+    for(let button of buttons) {
+      if(button.getAttribute("data-tabname") === tab_number) {
+        button.style.background = "#FFFF00";
+      } 
+      else {
+        button.style.background = "";
+      }
+    }
+  }
+
+  function asTabs(node) {
+    let children = Array.from(node.childNodes);
+    for(let i = 0; i < children.length; i++) {
+      if(children[i].nodeName.toLowerCase() === "div") {
+        let new_button = document.createElement("button");
+        new_button.innerHTML = children[i].getAttribute("data-tabname");
+        new_button.setAttribute("data-tabname", new_button.innerHTML);
+        node.insertBefore(new_button, children[0]);
+        new_button.addEventListener("click", function(click_event) {
+          changeTab(click_event.target.innerHTML); 
+        });
+      }
+    }
+    changeTab("one");
   }
   asTabs(document.querySelector("tab-panel"));
 </script>
