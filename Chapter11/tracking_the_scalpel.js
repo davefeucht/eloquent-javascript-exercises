@@ -25,19 +25,38 @@ locateScalpel(nest).then(console.log);
 
 */
 
-async function locateScalpel(nest) {
-  let current = nest.name;
+function routeRequest(nest, target, type, content) {
+    if (nest.neighbors.includes(target)) {
+        return request(nest, target, type, content);
+    } else {
+        let via = findRoute(nest.name, target, nest.state.connections);
+        if (!via) {
+            throw new Error(`No route to ${target}`);
+        }
+        return request(nest, via, "route", {target, type, content});
+    }
+}
 
-  for(;;) {
-    let next = await anyStorage(nest, current, "scalpel");
-    if(next === current) {
-      return current;
+function anyStorage(nest, source, name) {
+    if (source == nest.name) {
+        return storage(nest, name);
+    } else {
+        return routeRequest(nest, source, "storage", name);
     }
-    else {
-      current = next;
+}
+
+async function locateScalpel(nest) {
+    let current = nest.name;
+
+    for(;;) {
+        let next = await anyStorage(nest, current, "scalpel");
+        if(next === current) {
+            return current;
+        }
+        else {
+            current = next;
+        }
     }
-  }
-  
 }
 
 function locateScalpel2(nest) {
