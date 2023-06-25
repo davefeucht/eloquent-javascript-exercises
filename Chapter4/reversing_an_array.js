@@ -15,34 +15,30 @@ which variant do you expect to be useful in more situations? Which one runs fast
 */
 
 let reverseArray = function(array) {
-  let new_array = [];
-  for(let i = 0; i < array.length; i++) {
-    new_array.unshift(array[i]);
-  }
-  return new_array;
+  let newArray = [];
+  array.forEach(element => {
+    newArray.unshift(element);
+  });
+  return newArray;
 };
 
 let reverseArrayInPlace = function(array) {
   let counter = 0;
-  let temp_array_element;
+  let tempArrayElement;
   
-  if(array.length % 2 === 0) {
-    for(let i = (array.length - 1); i > (array.length / 2); i--) {
-      temp_array_element = array[counter];
+  // Determine the middle element of the array
+  const middle = (array.length % 2 === 0 ? array.length / 2 : Math.floor(array.length / 2));
+  // Loop from the end of the array to the middle
+  for(let i = (array.length - 1); i > middle; i--) {
+      // Get the first element of the array
+      tempArrayElement = array[counter];
+      // Write the last element of the array to the first element
       array[counter] = array[i];
-      array[i] = temp_array_element;
+      // Write the original first element to the last element
+      array[i] = tempArrayElement;
       counter++;
-    }
   }
-  else {
-    let middle = Math.floor(array.length / 2);
-    for(let i = (array.length - 1); i > middle; i--) {
-      temp_array_element = array[counter];
-      array[counter] = array[i];
-      array[i] = temp_array_element;
-      counter++;
-    }  
-  }
+
   return array;
 };
 
