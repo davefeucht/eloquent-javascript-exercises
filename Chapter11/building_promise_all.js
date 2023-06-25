@@ -40,20 +40,24 @@ Promise_all([soon(1), Promise.reject("X"), soon(3)])
 
 function Promise_all(promises) {
   return new Promise((resolve, reject) => {
-    let results = [];
-    let counter = promises.length;
-    for(let i = 0; i < promises.length; i++) {
-      promises[i].then(result => {
-        results[i] = result;
-        counter--;
-        if(counter === 0) {
-          resolve(results);
-        }
-      }).catch(reject);
+    const results = [];
+    let pending = promises.length;
+    if (promises.length === 0) {
+        resolve(results);
     }
-    if(promises.length === 0) {
-      resolve(results);
-    }
+    promises.forEach((promise, index) => {
+        promise
+            .then(result => {
+                results[index] = result;
+                pending -= 1;
+                if (pending === 0) {
+                    resolve(results);
+                }
+            })
+            .catch(reason => {
+                reject(reason);
+            });
+    });
   });
 }
 
