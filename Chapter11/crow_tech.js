@@ -1,9 +1,11 @@
 export const bigOak = {
-    send: (target, type, message, callback) => {
-        this[type](target, message, "Big Oak", callback);
+    storage: new Map(),
+    neighbors: [],
+    send: (target, type, content, callback) => {
+        this[type](target, content, "Big Oak", callback);
     },
     readStorage: (type, callback) => {
-
+        callback(this.storage.get(type));
     }
 };
 

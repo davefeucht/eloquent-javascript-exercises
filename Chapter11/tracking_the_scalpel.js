@@ -25,6 +25,43 @@ locateScalpel(nest).then(console.log);
 
 */
 
+import { bigOak, defineRequestType } from "./crow_tech";
+
+class Timeout extends Error {}
+
+function request(nest, target, type, content) {
+  return new Promise((resolve, reject) => {
+    let done = false;
+    function attempt(n) {
+      nest.send(target, type, content, (failed, value) => {
+        done = true;
+        if (failed) reject(failed);
+        else resolve(value);
+      });
+      setTimeout(() => {
+        if (done) return;
+        else if (n < 3) attempt(n + 1);
+        else reject(new Timeout("Timed out"));
+      }, 250);
+    }
+    attempt(1);
+  });
+}
+
+function findRoute(from, to, connections) {
+    let work = [{at: from, via: null}];
+    for (let i = 0; i < work.length; i++) {
+        let {at, via} = work[i];
+        for (let next of connections.get(at) || []) {
+            if (next == to) return via;
+            if (!work.some(w => w.at == next)) {
+                work.push({at: next, via: via || next});
+            }
+        }
+    }
+    return null;
+}
+
 function routeRequest(nest, target, type, content) {
     if (nest.neighbors.includes(target)) {
         return request(nest, target, type, content);
@@ -35,6 +72,12 @@ function routeRequest(nest, target, type, content) {
         }
         return request(nest, via, "route", {target, type, content});
     }
+}
+
+function storage(nest, name) {
+    return new Promise(resolve => {
+        nest.readStorage(name, result => resolve(result));
+    });
 }
 
 function anyStorage(nest, source, name) {
