@@ -148,6 +148,53 @@ function allNewRobot({ state, memory, roadGraph }) {
     return {direction: memory[0], memory: memory.slice(1)};
 }
 
+let deepEqual = function(value1, value2) {
+    let equal = false;
+    let value1IsObject = false;
+    let value2IsObject = false;
+   
+    if(typeof(value1) === "object" && value1 !== null) {
+        value1IsObject = true;
+    }
+  
+    if(typeof(value2) === "object" && value2 !== null) {
+        value2IsObject = true;
+    }
+  
+    if(!value1IsObject && !value2IsObject) {
+        equal = (value1 === value2); 
+    }
+  
+    if((value1IsObject && !value2IsObject) || (!value1IsObject && value2IsObject)) {
+        equal = false;
+    }
+  
+    if(value1IsObject && value2IsObject) {
+        let keysObject1 = Object.keys(value1);
+        let keysObject2 = Object.keys(value2);
+  
+        if(keysObject1.length !== keysObject2.length) {
+            equal = false;
+        }
+        else { 
+            for(let i = 0; i < keysObject1.length; i++) {
+                if(!keysObject2.includes(keysObject1[i])) {
+                    equal = false;
+                    break;
+                }
+                else {
+                    equal = deepEqual(value1[keysObject1[i]], value2[keysObject2[i]]); 
+                    if(!equal) {
+                        break;
+                    }
+                }
+            }
+        }
+    }
+  
+    return equal;
+};
+
 module.exports = {
     randomPick,
     calculateAverage,
@@ -156,5 +203,6 @@ module.exports = {
     runRobot,
     routeRobot,
     goalOrientedRobot,
-    allNewRobot
+    allNewRobot,
+    deepEqual
 };
